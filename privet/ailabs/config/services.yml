@@ -34,6 +34,23 @@ services:
         tags:
             - { name: event.listener }
 
+    privet.ailabs.controller_mureka:
+        class: privet\ailabs\controller\mureka
+        arguments:
+            - "@auth"
+            - "@config"
+            - "@dbal.conn"
+            - "@controller.helper"
+            - "@language"
+            - "@request"
+            - "@template"
+            - "@user"
+            - "@service_container"
+            - "%core.php_ext%"
+            - "%core.root_path%"
+            - "%privet.ailabs.tables.users%"
+            - "%privet.ailabs.tables.jobs%"    
+
     privet.ailabs.controller_faceswap:
         class: privet\ailabs\controller\faceswap
         arguments:

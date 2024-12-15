@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "AI Labs",
     "homepage": "https://privet.fun",
-    "version": "2.0.0",
-    "time": "2024-06-30",
+    "version": "3.0.0",
+    "time": "2024-12-15",
     "keywords": [
         "phpbb",
         "extension",
@@ -24,7 +24,10 @@
         "midjourney api",
         "useapi.net",
         "ai",
-        "discord cdn proxy"
+        "discord cdn proxy",
+        "mureka",
+        "suno",
+        "udio"
     ],
     "license": "GPL-2.0-only",
     "authors": [

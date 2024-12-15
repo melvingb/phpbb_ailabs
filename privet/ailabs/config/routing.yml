@@ -1,3 +1,7 @@
+privet_ailabs_mureka_page:
+    path: /ailabs/mureka    
+    defaults: { _controller: privet.ailabs.controller_mureka:execute }
+
 privet_ailabs_faceswap_page:
     path: /ailabs/faceswap
     defaults: { _controller: privet.ailabs.controller_faceswap:execute }

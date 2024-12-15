@@ -76,9 +76,7 @@ class AIController
         $this->setup();
     }
 
-    protected function setup()
-    {
-    }
+    protected function setup() {}
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -175,6 +173,7 @@ class AIController
     protected function replace_vars($job, resultParse $resultParse)
     {
         $images = null;
+        $mp3 = null;
         $mp4 = null;
         $attachments = null;
 
@@ -198,12 +197,20 @@ class AIController
             $mp4 = implode("", $mp4);
         }
 
+        if (!empty($resultParse->mp3)) {
+            $mp3 = [];
+            foreach ($resultParse->mp3 as $item)
+                array_push($mp3, '[mp3]' . $item . '[/mp3]' . PHP_EOL . PHP_EOL);
+            $mp3 = implode("", $mp3);
+        }
+
         $tokens = array(
             '{post_id}'         => $job['post_id'],
             '{request}'         => $job['request'],
             '{info}'            => $resultParse->info,
             '{response}'        => $resultParse->message,
             '{settings}'        => $resultParse->settings,
+            '{mp3}'             => $mp3,
             '{mp4}'             => $mp4,
             '{images}'          => $images,
             '{attachments}'     => $attachments,
@@ -788,5 +795,17 @@ class AIController
         $request = trim($request);
 
         return $files;
+    }
+
+    protected function startsWith($string, $startString)
+    {
+        if ($string === null || $startString === null) 
+            return false; 
+
+        $string = (string)$string;
+        $startString = (string)$startString;
+
+        $length = strlen($startString);
+        return strncmp($string, $startString, $length) === 0;
     }
 }

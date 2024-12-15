@@ -15,6 +15,7 @@ class resultParse
 {
     public $message;
     public $images;
+    public $mp3;
     public $mp4;
     public $info;
     public $json;

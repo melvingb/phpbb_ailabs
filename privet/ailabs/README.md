@@ -1,20 +1,20 @@
-# AI Labs v 2.0.0 <!-- omit from toc -->
+# AI Labs v 3.0.0 <!-- omit from toc -->
 
 
 Incorporate AI into your phpBB board and get ready for an exciting experience.  
-Currently supported Midjourney, ChatGPT and DALL-E (OpenAI), Gemini and Gemini Vision (Google), Claude (Anthropic), Stable Diffusion v2/v3 (Stability AI), Pika (Pika.art), PixVerse (PixVerse.ai), FaceSwap (Picsi.Ai).  
+Currently supported Midjourney, Mureka (similar to Suno/Udio), ChatGPT and DALL-E (OpenAI), Gemini and Gemini Vision (Google), Claude (Anthropic), Stable Diffusion v2/v3 (Stability AI), Pika (Pika.art), FaceSwap (Picsi.Ai).  
 
 - [Examples](#examples)
 - [Requirements](#requirements)
 - [Important notes](#important-notes)
 - [Installation](#installation)
+- [BBCode `mp3` tag](#bbcode-mp3-tag)
 - [BBCode `mp4` tag](#bbcode-mp4-tag)
 - [Discord CDN smart proxy setup](#discord-cdn-smart-proxy-setup)
 - [Midjourney setup](#midjourney-setup)
+- [Mureka setup](#mureka-setup)
 - [FaceSwap setup](#faceswap-setup)
 - [Pika setup](#pika-setup)
-- [PixVerse setup](#pixverse-setup)
-- [PixVerse\_MemeFace setup](#pixverse_memeface-setup)
 - [ChatGPT setup](#chatgpt-setup)
 - [ChatGPT advanced setup](#chatgpt-advanced-setup)
 - [Claude setup](#claude-setup)
@@ -33,10 +33,9 @@ Currently supported Midjourney, ChatGPT and DALL-E (OpenAI), Gemini and Gemini V
 ## Examples
 
  - [Midjourney](https://privet.fun/viewtopic.php?t=4530) 
+ - [Mureka](https://privet.fun/viewtopic.php?t=5090) 
  - [FaceSwap by Picsi.Ai](https://privet.fun/viewtopic.php?t=4521)
  - [Pika • AI text/text+image to video by Pika.art](https://privet.fun/viewtopic.php?t=4220)  
- - [PixVerse • AI text/text+image to video by PixVerse.ai](https://privet.fun/viewtopic.php?t=4522)  
- - [PixVerse_MemeFace • AI text+image to video by PixVerse.ai](https://privet.fun/viewtopic.php?t=4523)  
  - [ChatGPT](https://privet.fun/viewtopic.php?t=4528) 
  - [ChatGPT, custom prompt](https://privet.fun/viewtopic.php?t=2799) 
  - [Claude](https://privet.fun/viewtopic.php?t=4527)
@@ -87,12 +86,32 @@ Go to `ACP` > `Customise` > `Manage extensions` and enable the `AI Labs` extensi
 Finally go to `ACP` > `Extensions` > `AI Labs` > `Settings` and add desired AI configurations:  
 ![Attachment settings](../privet/ailabs/docs/ailabs_settings.png) 
 
+## BBCode `mp3` tag
+
+The following AI bots are generating `mp3` audio and will require adding the `[mp3]` BBCode tag:  
+* [Mureka](#mureka-setup)
+
+To add `mp3` BBCode tag, go to `ACP` > `POSTING` > `BBCodes` and add `mp3` tag as shown below:  
+  ![BBCode tag](../privet/ailabs/docs/bbcode_mp3.png)   
+  **BBCode usage**: 
+  ```text
+  [mp3]{URL}[/mp3]
+  ```
+  **HTML replacement**: 
+  ```text
+  <audio controls>
+  <source src="{URL}" type="audio/mp3">Your browser does not support the audio element.
+  </audio>
+  ```
+  **Help line**:
+  ```text
+  [mp3]http://example.com/music.mp3[/mp3]
+  ```
+
 ## BBCode `mp4` tag
 
 The following Discord AI bots are generating `mp4` videos and will require adding the `[mp4]` BBCode tag:  
 * [Pika](#pika-setup)
-* [PixVerse](#pixverse-setup)
-* [PixVerse\_MemeFace](#pixverse_memeface-setup)  
 
 To add `mp4` BBCode tag, go to `ACP` > `POSTING` > `BBCodes` and add `mp4` tag as shown below:  
   ![BBCode tag](../privet/ailabs/docs/bbcode_mp4.png)   
@@ -119,8 +138,6 @@ Currently following Discord AI bots supported by this plugin via API provided by
 * [Midjourney](#midjourney-setup)
 * [FaceSwap](#faceswap-setup)
 * [Pika](#pika-setup)
-* [PixVerse](#pixverse-setup)
-* [PixVerse\_MemeFace](#pixverse_memeface-setup)
 
 You will need at least one Discord token(s) from any of above Discord AI bots. In fact, you can use any Discord account to obtain a token since Discord does not check or enforce any security validations. All you need is an active Discord account and a Discord token for that account - see how to  [obtain Discord token](https://useapi.net/docs/start-here/setup-midjourney#obtain-discord-token). You may configure multiple Discord tokens to spread the load and avoid Discord 429 response codes. However, this is a theoretical safety measure as I have yet to encounter a 429 response for this particular use case, even with a single Discord account. It appears that Discord does not throttle attachment refresh API calls at this point.
 
@@ -197,6 +214,38 @@ WHERE post_text LIKE "%https://cdn.discordapp.com/attachments/%"
 
 * You **MUST** configure the [Discord CDN smart proxy](#discord-cdn-smart-proxy-setup) so that the generated images become visible on your board.
 
+## Mureka setup 
+
+* ✔️ Mureka [tutorial and examples](https://privet.fun/viewtopic.php?t=5089).    
+
+* You'll need [Mureka](https://useapi.net/docs/start-here/setup-mureka) account and [useapi.net](https://useapi.net/docs/start-here/setup-useapi) accounts with active useapi.net [subscription](https://useapi.net/docs/subscription).    
+
+* Create new board user who will act as AI bot, for our example we will use user `Mureka`.  
+  Make sure this user account is activated and fully functional.  
+
+* Go to `ACP` > `Extensions` > `AI Labs` > `Settings` and add new configuration, select `mureka` from AI dropdown:  
+  ![Attachment settings](../privet/ailabs/docs/mureka_setup.png)  
+  
+  - Use `Load default configuration/template` to get defaults.  
+    Replace Configuration JSON `api-key` with your value.
+
+    Optionally, you can add the following JSON fields to override the default values for:
+    ```json
+    "param_song": "--song",
+    "param_lyrics": "--lyrics",
+    "param_style": "--style",
+    ```
+
+    Set the parameter `"no_cover": true` if you **do not** want a cover image link added to the message.
+  
+  - Select forums where you want `Mureka` AI user to reply to new posts and/or to quoted and [@mention](https://www.phpbb.com/customise/db/extension/simple_mentions) (if you are using Simple mentions extension) posts. 
+
+* Save changes, navigate to forum configured above and create new post (if you configured `Reply on a post`) or quote/[@mention]() `Mureka` user.
+
+* Refer to this [post](https://privet.fun/viewtopic.php?t=5089) to learn more about the currently supported Mureka bot functionality.
+
+* You **MUST** configure the [BBCode `mp3` tag](#bbcode-mp3-tag) so that the generated mp3 media become viewable on your board.
+  
 ## FaceSwap setup 
 
 * ✔️ FaceSwap [tutorial and examples](https://privet.fun/viewtopic.php?t=4521).    
@@ -244,57 +293,6 @@ WHERE post_text LIKE "%https://cdn.discordapp.com/attachments/%"
   ![Attachment settings](../privet/ailabs/docs/pika_example.png)
 
 * Refer to this [post](https://privet.fun/viewtopic.php?t=4220) to learn more about the currently supported Pika bot functionality.
-
-* You **MUST** configure the [Discord CDN smart proxy](#discord-cdn-smart-proxy-setup) so that the generated mp4 media become visible on your board.
-
-* You **MUST** configure the [BBCode `mp4` tag](#bbcode-mp4-tag) so that the generated mp4 media become viewable on your board.
-
-## PixVerse setup 
-
-* ✔️ PixVerse [tutorial and examples](https://privet.fun/viewtopic.php?t=4522).    
-
-* You'll need [PixVerse](https://useapi.net/docs/start-here/setup-pixverse) Discord and [useapi.net](https://useapi.net/docs/start-here/setup-useapi) accounts with active useapi.net [subscription](https://useapi.net/docs/subscription).    
-   PixVerse Discord bot is currently free to use and does not require any additional subscription. 
-
-* Create new board user who will act as AI bot, for our example we will use user `PixVerse`.  
-  Make sure this user account is activated and fully functional.  
-
-* Go to `ACP` > `Extensions` > `AI Labs` > `Settings` and add new configuration, select `pixverse` from AI dropdown:  
-  ![Attachment settings](../privet/ailabs/docs/pixverse_setup.png)  
-  
-  - Use `Load default configuration/template` to get defaults.  
-    Replace Configuration JSON `api-key`, `discord`, `server` and `channel` with your values.  
-    If you explicitly configured your [PixVerse useapi.net account](https://useapi.net/docs/api-pixverse-v1/post-pixverse-account-channel) you do not need to specify `discord`, `server` and `channel` values and can delete them from the configuration.   
-    👉 You can replace the `url_create` field value with `https://api.useapi.net/v1/pixverse/create_single` if you wish to generate a single video per request. If you choose to do so, it is safe to increase the `maxJobs` value to `5` or perhaps even `7`.
-  
-  - Select forums where you want `PixVerse` AI user to reply to new posts and/or to quoted and [@mention](https://www.phpbb.com/customise/db/extension/simple_mentions) (if you are using Simple mentions extension) posts. 
-
-* Save the changes, navigate to the forum configured above, and create a new post (if you configured `Reply on a post`) or quote/[@mention]() the `PixVerse` user to verify that it is working as expected. Refer to the [troubleshooting](#troubleshooting) section if you encounter any issues.  
-
-* You **MUST** configure the [Discord CDN smart proxy](#discord-cdn-smart-proxy-setup) so that the generated mp4 media become visible on your board.
-
-* You **MUST** configure the [BBCode `mp4` tag](#bbcode-mp4-tag) so that the generated mp4 media become viewable on your board.
-
-## PixVerse_MemeFace setup 
-
-* ✔️ PixVerse_MemeFace [tutorial and examples](https://privet.fun/viewtopic.php?t=4523).    
-
-* You'll need [PixVerse](https://useapi.net/docs/start-here/setup-pixverse) Discord and [useapi.net](https://useapi.net/docs/start-here/setup-useapi) accounts with active useapi.net [subscription](https://useapi.net/docs/subscription).    
-   PixVerse Discord bot is currently free to use and does not require any additional subscription. 
-
-* Create new board user who will act as AI bot, for our example we will use user `PixVerse_MemeFace`.  
-  Make sure this user account is activated and fully functional.  
-
-* Go to `ACP` > `Extensions` > `AI Labs` > `Settings` and add new configuration, select `pixverse_meme_face` from AI dropdown:  
-  ![Attachment settings](../privet/ailabs/docs/pixverse_meme_face_setup.png)  
-  
-  - Use `Load default configuration/template` to get defaults.  
-    Replace Configuration JSON `api-key`, `discord`, `server` and `channel` with your values.  
-    If you explicitly configured your [PixVerse useapi.net account](https://useapi.net/docs/api-pixverse-v1/post-pixverse-account-channel) you do not need to specify `discord`, `server` and `channel` values and can delete them from the configuration.   
-  
-  - Select forums where you want `PixVerse_MemeFace` AI user to reply to new posts and/or to quoted and [@mention](https://www.phpbb.com/customise/db/extension/simple_mentions) (if you are using Simple mentions extension) posts. 
-
-* Save the changes, navigate to the forum configured above, and create a new post (if you configured `Reply on a post`) or quote/[@mention]() the `PixVerse_MemeFace` user to verify that it is working as expected. Refer to the [troubleshooting](#troubleshooting) section if you encounter any issues.  
 
 * You **MUST** configure the [Discord CDN smart proxy](#discord-cdn-smart-proxy-setup) so that the generated mp4 media become visible on your board.
 
@@ -492,6 +490,12 @@ Refer to https://platform.openai.com/docs/api-reference/images/create to learn m
 This extension is currently being actively developed. For communication, please use https://github.com/privet-fun/phpbb_ailabs/issues.
 
 ## Changelog 
+
+* 3.0.0 December 15, 2024
+  - Added support for the [Mureka](#mureka-setup) music bot. [Mureka.ai](https://Mureka.ai) is similar to [Suno](https://suno.com) and [Udio](https://www.udio.com), generating unique songs based on user-provided lyrics or descriptions (AI-generated lyrics).  
+  - PixVerse Discord bot removed.    
+  - Updated the Midjourney bot configuration to use `/seed_async` instead of the deprecated `/seed`.  
+    ![Midjourney seed_async](../privet/ailabs/docs/midjourney_seed_async.png)
 
 * 2.0.0 June 30, 2024
   - Support for four new Discord AI bots added:

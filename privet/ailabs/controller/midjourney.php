@@ -21,7 +21,7 @@ config:
 {
     "url_imagine": "https://api.useapi.net/v2/jobs/imagine",
     "url_button": "https://api.useapi.net/v2/jobs/button",
-    "url_seed": "https://api.useapi.net/v2/jobs/seed",
+    "url_seed": "https://api.useapi.net/v2/jobs/seed_async",
     "api_key": "<API_KEY>",
     "discord": "optional|your-discord-token",
     "server": "optional|your-discord-server-id",

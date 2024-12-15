@@ -35,6 +35,7 @@ class acp_controller //implements acp_interface
 	protected $tpr_ailabs;
 
 	protected $desc_contollers = [
+		'/ailabs/mureka',
 		'/ailabs/faceswap',
 		'/ailabs/pixverse',
 		'/ailabs/pixverse_meme_face',

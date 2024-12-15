@@ -43,6 +43,16 @@
 
 	<script type="text/javascript">
 		const defaultConfigs = {
+			"mureka": {
+				"url_create": "https://api.useapi.net/v1/mureka/music/create/",
+				"url_create_advanced": "https://api.useapi.net/v1/mureka/music/create-advanced/",
+				"url_lyrics_generate": "https://api.useapi.net/v1/mureka/music/lyrics-generate/",
+				"url_song_id": "https://api.useapi.net/v1/mureka/music/",
+				"account": "<Optional Mureka API account, remove if only one account setup with API>",
+				"api_key": "<API_KEY>",
+				"timeoutAPISec": 600,
+				"no_cover": false
+			},
 			"faceswap": {
 				"url_picsi": "https://api.useapi.net/v1/faceswap/picsi",
 				"api_key": "<API_KEY>",
@@ -87,7 +97,7 @@
 			"midjourney": {
 				"url_imagine": "https://api.useapi.net/v2/jobs/imagine",
 				"url_button": "https://api.useapi.net/v2/jobs/button",
-				"url_seed": "https://api.useapi.net/v2/jobs/seed",
+				"url_seed": "https://api.useapi.net/v2/jobs/seed_async",
 				"api_key": "<API_KEY>",
 				"discord": "optional|your-discord-token",
 				"server": "optional|your-discord-server-id",
@@ -221,6 +231,7 @@
 		}
 
 		const defaultTemplate = {
+			"mureka": "[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\n\{response\}\n\{mp3\}\n\{info\}",
 			"faceswap": "[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\n\{response\}\n\{images\}\n\{info\}",
 			"pixverse": "[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\n\{response\}\n\{mp4\}\n\{info\}",
 			"pixverse_meme_face": "[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\n\{response\}\n\{mp4\}\n\{info\}",
@@ -238,6 +249,7 @@
 		}
 
 		const urlAPIDocs = {
+			"mureka": "https://useapi.net/docs/start-here/setup-mureka",
 			"faceswap": "https://useapi.net/docs/start-here/setup-faceswap",
 			"pixverse": "https://useapi.net/docs/start-here/setup-pixverse",
 			"pixverse_meme_face": "https://useapi.net/docs/start-here/setup-pixverse",
