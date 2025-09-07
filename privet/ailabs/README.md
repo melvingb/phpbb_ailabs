@@ -112,6 +112,7 @@ To add `mp3` BBCode tag, go to `ACP` > `POSTING` > `BBCodes` and add `mp3` tag a
 ## BBCode `mp4` tag
 
 The following Discord AI bots are generating `mp4` videos and will require adding the `[mp4]` BBCode tag:  
+* [Midjourney](#midjourney-setup)
 * [Pika](#pika-setup)
 
 To add `mp4` BBCode tag, go to `ACP` > `POSTING` > `BBCodes` and add `mp4` tag as shown below:  
@@ -498,7 +499,7 @@ This extension is currently being actively developed. For communication, please 
   - Added support for [Midjourney Video](https://docs.midjourney.com/hc/en-us/articles/37460773864589-Video).   
     See [examples](https://privet.fun/viewtopic.php?t=5748) and [Midjourney setup](#midjourney-setup) for details and recommendations.    
     👉 Please note that you **MUST** reload/update both the Midjourney bot [configuration and template](#midjourney-setup) and the [BBCode `mp4` tag](#bbcode-mp4-tag) if you plan to enable Midjourney Video generation.
-  - Updated Midjourney configuration to match recent changes in the https://useapi.net [Midjourney API](https://useapi.net/docs/api-v2): `discord` and `server` parameters have been removed and are no longer used.
+  - Updated [Midjourney configuration](#midjourney-setup) to match recent changes in the https://useapi.net [Midjourney API](https://useapi.net/docs/api-v2): `discord` and `server` parameters have been removed and are no longer used.
   - Updated [ChatGPT](#chatgpt-setup) setup configuration and instructions to follow the recently released `gpt-5` model configuration.
   - Updated [Gemini](#gemini-setup) and [Gemini Vision](#gemini-vision-setup) setup configuration and instructions to follow the recently released `gemini-2.5-flash` model configuration.
   - Added Dutch translation provided by goztov https://github.com/goztow.
