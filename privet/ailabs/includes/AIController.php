@@ -4,7 +4,7 @@
  *
  * AI Labs extension
  *
- * @copyright (c) 2023, privet.fun, https://privet.fun
+ * @copyright (c) 2023-2025, privet.fun, https://privet.fun
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -180,20 +180,73 @@ class AIController
         if (!empty($resultParse->images)) {
             $images = [];
             $attachments = [];
-            $ind = 0;
-            foreach ($resultParse->images as $item) {
-                array_push($images, '[img]' . $item . '[/img]' . PHP_EOL . PHP_EOL);
-                array_push($attachments, '[attachment=' . $ind . '][/attachment]' . PHP_EOL);
-                $ind = $ind + 1;
+
+            foreach ($resultParse->images as $ind => $item) {
+                $imageUrl = null;
+                $imageId = null;
+
+                if (is_string($item)) {
+                    $imageUrl = $item;
+                } else {
+                    $item_obj = (object) $item;
+                    if (isset($item_obj->url)) {
+                        $imageUrl = $item_obj->url;
+                        if (isset($item_obj->id)) {
+                            $imageId = $item_obj->id;
+                        }
+                    }
+                }
+
+                if (!empty($imageUrl)) {
+                    $imageString = '';
+
+                    if ($imageId !== null) {
+                        $imageString .= '#' . $imageId . PHP_EOL;
+                    }
+
+                    $imageString .= '[img]' . $imageUrl . '[/img]' . PHP_EOL . PHP_EOL;
+
+                    array_push($images, $imageString);
+                    array_push($attachments, '[attachment=' . $ind . '][/attachment]' . PHP_EOL);
+                }
             }
+
             $images = implode("", $images);
             $attachments = implode("", $attachments);
         }
 
         if (!empty($resultParse->mp4)) {
             $mp4 = [];
-            foreach ($resultParse->mp4 as $item)
-                array_push($mp4, '[mp4]' . $item . '[/mp4]' . PHP_EOL . PHP_EOL);
+
+            foreach ($resultParse->mp4 as $item) {
+                $videoUrl = null;
+                $videoId = null;
+
+                if (is_string($item)) {
+                    $videoUrl = $item;
+                } else {
+                    $item_obj = (object) $item;
+                    if (isset($item_obj->url)) {
+                        $videoUrl = $item_obj->url;
+                        if (isset($item_obj->id)) {
+                            $videoId = $item_obj->id;
+                        }
+                    }
+                }
+
+                if (!empty($videoUrl)) {
+                    $videoString = '';
+
+                    if ($videoId !== null) {
+                        $videoString .= '#' . $videoId . PHP_EOL;
+                    }
+
+                    $videoString .= '[mp4]' . $videoUrl . '[/mp4]' . PHP_EOL . PHP_EOL;
+
+                    array_push($mp4, $videoString);
+                }
+            }
+
             $mp4 = implode("", $mp4);
         }
 
@@ -799,8 +852,8 @@ class AIController
 
     protected function startsWith($string, $startString)
     {
-        if ($string === null || $startString === null) 
-            return false; 
+        if ($string === null || $startString === null)
+            return false;
 
         $string = (string)$string;
         $startString = (string)$startString;

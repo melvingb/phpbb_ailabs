@@ -50,7 +50,7 @@
 				"url_song_id": "https://api.useapi.net/v1/mureka/music/",
 				"account": "<Optional Mureka API account, remove if only one account setup with API>",
 				"api_key": "<API_KEY>",
-				"timeoutAPISec": 600,
+				"timeoutAPISec": 300,
 				"no_cover": false
 			},
 			"faceswap": {
@@ -99,8 +99,6 @@
 				"url_button": "https://api.useapi.net/v2/jobs/button",
 				"url_seed": "https://api.useapi.net/v2/jobs/seed_async",
 				"api_key": "<API_KEY>",
-				"discord": "optional|your-discord-token",
-				"server": "optional|your-discord-server-id",
 				"channel": "optional|your-discord-channel-id",
 				"maxJobs": 3,
 				"retryCount": 80,
@@ -120,11 +118,11 @@
 				"max_quote_length": 10
 			},
 			"gemini": {
-				"url_generateContent": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=<API_KEY>",
-				"url_countTokens": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:countTokens?key=<API_KEY>",
+				"url_generateContent": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=<API_KEY>",
+				"url_countTokens": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:countTokens?key=<API_KEY>",
 				"max_tokens": 30720,
 				"max_quote_length": 10,
-				"prefix": "",
+				 "prefix": "Use phpBB bbcode formatting when answering, unless explicitly specified otherwise.",
 				"safety_settings": [
 					{
 						"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
@@ -152,7 +150,7 @@
 				}
 			},
 			"gemini_vision": {
-				"url_generateContent": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=<API_KEY>",
+				"url_generateContent": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=<API_KEY>",
 				"safety_settings": [
 					{
 						"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
@@ -180,12 +178,12 @@
 			"chatgpt": {
 				"url_chat": "https://api.openai.com/v1/chat/completions",
 				"api_key": "<API_KEY>",
-				"model": "gpt-4o",
-				"temperature": 0.9,
-				"max_tokens": 4096,
-				"top_p": 1,
+				"model": "gpt-5",
+				"max_tokens": 32768,
+				"temperature": 1,
 				"frequency_penalty": 0,
-				"presence_penalty": 0.6,
+				"presence_penalty": 0,
+				"max_quote_length": 10,
 				"prefix": "",
 				"prefix_tokens": 0,
 				"max_quote_length": 10
@@ -236,7 +234,7 @@
 			"pixverse": "[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\n\{response\}\n\{mp4\}\n\{info\}",
 			"pixverse_meme_face": "[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\n\{response\}\n\{mp4\}\n\{info\}",
 			"pika": "[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\n\{response\}\n\{mp4\}\n\{info\}",
-			"midjourney": "[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\n\{response\}\n\{images\}\n\{info\}",
+			"midjourney": "[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\n\{response\}\n\{images\}\n\{mp4\}\n\{info\}",
 			"claude": "\{info\}[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\{response\}\n\{settings\}",
 			"gemini": "\{info\}[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\{response\}\n\{settings\}",
 			"gemini_vision": "\{info\}[quote=\{poster_name\} post_id=\{post_id\} user_id=\{poster_id\}]\{request\}[/quote]\{response\}\n\{settings\}",

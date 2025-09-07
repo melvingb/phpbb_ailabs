@@ -26,7 +26,7 @@ config:
     "url_song_id": "https://api.useapi.net/v1/mureka/music/",
     "account": "<Optional Mureka API account, remove if only one account setup with API>",
     "api_key": "<API_KEY>",
-    "timeoutAPISec": 600,
+    "timeoutAPISec": 300,
     "no_cover": false
 }
 

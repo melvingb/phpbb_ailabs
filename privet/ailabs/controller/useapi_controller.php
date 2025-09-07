@@ -4,7 +4,7 @@
  *
  * AI Labs extension
  *
- * @copyright (c) 2024, privet.fun, https://privet.fun
+ * @copyright (c) 2024-2025, privet.fun, https://privet.fun
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -180,6 +180,18 @@ class useapi_controller extends GenericController
                         else
                             array_push($this->messages, "Unknown content_type " . $content_type . " for " . $attachment['filename']);
                     }
+                    // videoUx https://useapi.net/docs/api-v2/get-jobs-jobid#model
+                    if (!empty($json['videoUx'])  && is_array($json['videoUx'])) {
+                        foreach ($json['videoUx'] as $videoUx) {
+                            array_push($mp4, $videoUx);
+                        }
+                    }
+                    // imageUx https://useapi.net/docs/api-v2/get-jobs-jobid#model
+                    if (!empty($json['imageUx'])  && is_array($json['imageUx'])) {
+                        foreach ($json['imageUx'] as $imageUx) {
+                            array_push($images, $imageUx);
+                        }
+                    }
                     if (!empty($images))
                         $resultParse->images = $images;
                     if (!empty($mp4))
@@ -194,6 +206,12 @@ class useapi_controller extends GenericController
 
                 if (!empty($json['buttons'])) {
                     $all_buttons = array_merge($json['buttons'], $this->extra_buttons);
+                    // No seed for --video https://useapi.net/docs/api-v2/post-jobs-seed_async
+                    if (!empty($json['content']) && stripos($json['content'], '--video') !== false) {
+                        $all_buttons = array_values(array_filter($all_buttons, static function ($b) {
+                            return $b !== 'Seed';
+                        }));
+                    }
                     $buttons_info = $this->info_buttons . implode(" • ", $all_buttons);
                     $resultParse->info =  empty($resultParse->info) ? $buttons_info : $resultParse->info . PHP_EOL . $buttons_info;
                 }

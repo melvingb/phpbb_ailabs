@@ -4,7 +4,7 @@
  *
  * AI Labs extension
  *
- * @copyright (c) 2024, privet.fun, https://privet.fun
+ * @copyright (c) 2024-2025, privet.fun, https://privet.fun
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -70,6 +70,16 @@ class discord_cdn extends GenericController
      */
     public function redirect($root, $attachments, $channel, $message, $file_name, Request $request)
     {
+        $all_params = $request->query->all();
+        $additional_params = [];
+        foreach ($all_params as $key => $value) {
+            if (!in_array($key, ['ex', 'is', 'hm', 'ext'])) {
+                $additional_params[$key] = $value;
+            }
+        }
+        ksort($additional_params);
+        $additional_params_query = http_build_query($additional_params);
+
         $ext = $request->query->get('ext');
         $ex = $request->query->get('ex');
         $is = $request->query->get('is');
@@ -78,13 +88,22 @@ class discord_cdn extends GenericController
         // Underscored keys cached to file system.
         // Assuming that Discord file name is unique.
         $key = '_' . $file_name . '.' . $ext;
+        if (!empty($additional_params_query)) {
+            $key .= ':' . $additional_params_query;
+        }
         $url = 'https://' . $root . '/' . $attachments . '/' . $channel . '/' . $message . '/' . $file_name . '.' . $ext;
 
         if (!empty($ex) && !empty($is) && !empty($hm)) {
             $secondsTimestamp = hexdec($ex);
             $currentTimestamp = time();
             if ($secondsTimestamp > $currentTimestamp)
-                return new RedirectResponse($url . '?ex=' . $ex . '&is=' . $is . '&hm=' . $hm . '&original');
+            {
+                $redirect_url = $url . '?ex=' . $ex . '&is=' . $is . '&hm=' . $hm;
+                if (!empty($additional_params_query)) {
+                    $redirect_url .= '&' . $additional_params_query;
+                }
+                return new RedirectResponse($redirect_url . '&original');
+            }
         }
 
         if ($this->cache->_exists($key)) {
@@ -147,6 +166,15 @@ class discord_cdn extends GenericController
         if (isset($json['refreshed_urls'][0]['refreshed'])) {
             $refreshed = $json['refreshed_urls'][0]['refreshed'];
 
+            $redirect_url = $refreshed;
+            if (!empty($additional_params_query)) {
+                if (strpos($redirect_url, '?') === false) {
+                   $redirect_url .= '?' . $additional_params_query;
+               } else {
+                   $redirect_url .= '&' . $additional_params_query;
+               }
+            }
+
             $query_str = parse_url($refreshed, PHP_URL_QUERY);
             parse_str($query_str, $query_params);
 
@@ -156,9 +184,9 @@ class discord_cdn extends GenericController
             $currentTimestamp = time();
             $ttl = $secondsTimestamp - $currentTimestamp;
 
-            $this->cache->put($key, $refreshed, $ttl);
+            $this->cache->put($key, $redirect_url, $ttl);
 
-            return new RedirectResponse($refreshed . '&ttl=' . $ttl);
+            return new RedirectResponse($redirect_url . '&ttl=' . $ttl);
         } else {
             return new JsonResponse($result, 400);
         }

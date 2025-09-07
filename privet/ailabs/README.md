@@ -1,4 +1,4 @@
-# AI Labs v 3.0.0 <!-- omit from toc -->
+# AI Labs v 3.1.0 <!-- omit from toc -->
 
 
 Incorporate AI into your phpBB board and get ready for an exciting experience.  
@@ -33,6 +33,7 @@ Currently supported Midjourney, Mureka (similar to Suno/Udio), ChatGPT and DALL-
 ## Examples
 
  - [Midjourney](https://privet.fun/viewtopic.php?t=4530) 
+ - [Midjourney Video](https://privet.fun/viewtopic.php?t=5748) 
  - [Mureka](https://privet.fun/viewtopic.php?t=5090) 
  - [FaceSwap by Picsi.Ai](https://privet.fun/viewtopic.php?t=4521)
  - [Pika • AI text/text+image to video by Pika.art](https://privet.fun/viewtopic.php?t=4220)  
@@ -121,9 +122,9 @@ To add `mp4` BBCode tag, go to `ACP` > `POSTING` > `BBCodes` and add `mp4` tag a
   ```
   **HTML replacement**: 
   ```text
-  <video src="{URL}" style="width:100%;max-width:640px" controls>Your browser does not support the video tag.</video>
+  <video src="{URL}" style="width:90%; height:auto; max-height:90vh; aspect-ratio:9/16; object-fit:contain; display:block;" controls>Your browser does not support the video tag.</video>
   ```
-  You can adjust above `max-width:NNNpx` to desired value.  
+  You can adjust above `max-height:XXvh` to desired value.  
   **Help line**:
   ```text
   [mp4]http://example.com/video.mp4[/mp4]
@@ -205,9 +206,11 @@ WHERE post_text LIKE "%https://cdn.discordapp.com/attachments/%"
   ![Attachment settings](../privet/ailabs/docs/midjourney_setup.png)  
   
   - Use `Load default configuration/template` to get defaults.  
-    Replace Configuration JSON `api-key`, `discord`, `server` and `channel` with your values. 
-    If you explicitly configured your [Midjourney useapi.net account](https://useapi.net/docs/api-v2/post-account-midjourney-channel) you do not need to specify the `discord`, `server` and `channel` values and can delete them from the configuration. 
+    Replace Configuration JSON `api-key` and `channel` with your values. 
   - Select forums where you want `Midjourney` AI user to reply to new posts and/or to quoted and [@mention](https://www.phpbb.com/customise/db/extension/simple_mentions) (if you are using Simple mentions extension) posts. 
+  - You can set the `image_relax` and `video_relax` JSON values to `true` if you want to force `/imagine` generations of images or videos to use the `--relax` flag.  
+    Before doing this, make sure that your [Midjourney plan](https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans) supports `--relax` for images/videos, for images you need the Standard $30/month plan or above, for videos the Pro $60/month plan or above is required.
+    For the Standard $30/month plan, I suggest setting your Midjourney account to use fast mode by default and using `"image_relax": true`. This way, you will save GPU time on image `/imagine` generations and still be able to generate videos. If you plan to generate a lot of videos, you'll need the Pro $60/month plan with your Midjourney account mode set to relax.
 
 * Save changes, navigate to forum configured above and create new post (if you configured `Reply on a post`) or quote/[@mention]() `Midjourney` user:  
   ![Attachment settings](../privet/ailabs/docs/midjourney_example.png)
@@ -320,7 +323,7 @@ WHERE post_text LIKE "%https://cdn.discordapp.com/attachments/%"
   ![Attachment settings](../privet/ailabs/docs/chatgpt_example.png)
 
 * Fine-tuning can be done by adjusting following OpenAI API chat parameters https://platform.openai.com/docs/api-reference/chat
-  - `model`, default `gpt-4o`, full list of models available at https://platform.openai.com/docs/models
+  - `model`, default `gpt-5`, full list of models available at https://platform.openai.com/docs/models
   - `temperature`, `top_p`, `frequency_penalty` and `presence_penalty` - see https://platform.openai.com/docs/api-reference/chat/create
 
 * Additional setting used by ChatGPT AI 
@@ -491,6 +494,15 @@ This extension is currently being actively developed. For communication, please 
 
 ## Changelog 
 
+* 3.1.0 September 7, 2025
+  - Added support for [Midjourney Video](https://docs.midjourney.com/hc/en-us/articles/37460773864589-Video).   
+    See [examples](https://privet.fun/viewtopic.php?t=5748) and [Midjourney setup](#midjourney-setup) for details and recommendations.    
+    👉 Please note that you **MUST** reload/update both the Midjourney bot [configuration and template](#midjourney-setup) and the [BBCode `mp4` tag](#bbcode-mp4-tag) if you plan to enable Midjourney Video generation.
+  - Updated Midjourney configuration to match recent changes in the https://useapi.net [Midjourney API](https://useapi.net/docs/api-v2): `discord` and `server` parameters have been removed and are no longer used.
+  - Updated [ChatGPT](#chatgpt-setup) setup configuration and instructions to follow the recently released `gpt-5` model configuration.
+  - Updated [Gemini](#gemini-setup) and [Gemini Vision](#gemini-vision-setup) setup configuration and instructions to follow the recently released `gemini-2.5-flash` model configuration.
+  - Added Dutch translation provided by goztov https://github.com/goztow.
+  
 * 3.0.0 December 15, 2024
   - Added support for the [Mureka](#mureka-setup) music bot. [Mureka.ai](https://Mureka.ai) is similar to [Suno](https://suno.com) and [Udio](https://www.udio.com), generating unique songs based on user-provided lyrics or descriptions (AI-generated lyrics).  
   - PixVerse Discord bot removed.    
